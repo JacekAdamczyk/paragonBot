@@ -1,0 +1,16 @@
+{
+    "name": "discord-bot",
+    "version": "1.0.0",
+    "description": "A Discord bot with AI-powered search functionality",
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node src/index.js"
+    },
+    "dependencies": {
+        "discord.js": "^14.14.1",
+        "dotenv": "^16.0.0",
+        "openai": "^3.0.0",
+        "uuid": "^10.0.0"
+    }
+}
