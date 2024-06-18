@@ -8,14 +8,15 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export async function filterMaterialsWithOpenAI(query, materials) {
+export async function filterMaterialsWithOpenAI(query, filteredMaterials) {
+  console.log(filteredMaterials)
   const prompt = `
     Given the following list of educational materials, provide the ones that best match the query: "${query}"
 
     Each material is described with an ID, summary, content, keywords, and author.
 
     Materials:
-    ${materials.map(material => `ID: ${material.id}\nSummary: ${material.summary}\nContent: ${material.messages.map(m => m.content).join(' ')}\nKeywords: ${material.keywords.join(', ')}\nAuthor: ${material.author}`).join('\n\n')}
+    ${filteredMaterials.map(material => `ID: ${material.id}\nSummary: ${material.summary}\nContent: ${material.messages.map(m => m.content).join(' ')}\nKeywords: ${material.keywords.join(', ')}\nAuthor: ${material.author}`).join('\n\n')}
 
     Query: "${query}"
 
@@ -23,7 +24,7 @@ export async function filterMaterialsWithOpenAI(query, materials) {
   `;
 
   const response = await openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o',
     messages: [
       { role: 'system', content: 'You are a helpful assistant.' },
       { role: 'user', content: prompt }
@@ -38,15 +39,15 @@ export async function filterMaterialsWithOpenAI(query, materials) {
   // Extract material IDs from the response
   const idMatches = resultText.match(/\b[a-f0-9\-]{36}\b/g); // Match UUID format
   const matchedIds = idMatches ? [...new Set(idMatches)] : [];
-  console.log('matchedIds');
-  console.log(matchedIds);
+  // console.log('matchedIds');
+  // console.log(matchedIds);
 
   // Find matching materials based on material IDs
-  const matchedMaterials = materials.filter(material =>
+  const matchedMaterials = filteredMaterials.filter(material =>
     matchedIds.includes(material.id)
   );
-  console.log('matchedMaterials');
-  console.log(matchedMaterials);
+  // console.log('matchedMaterials');
+  // console.log(matchedMaterials);
 
   return matchedMaterials;
 }
