@@ -1,7 +1,7 @@
 import { Client, GatewayIntentBits } from 'discord.js';
-import { findEducationalMaterial } from './commands/find.js';
-import { loadMaterials } from './utils/data.js';
 import dotenv from 'dotenv';
+import commandHandlers from './commandHandlers.js';
+import { loadMaterials } from './utils/data.js';
 
 dotenv.config();
 
@@ -19,10 +19,12 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', async message => {
-  if (message.content.startsWith('!find')) {
-    const query = message.content.slice(6).trim();
-    const response = await findEducationalMaterial(query);
-    message.reply(response);
+  // Split the message content into command and arguments, ignoring multiple spaces
+  const args = message.content.trim().split(/\s+/);
+  const command = args.shift().toLowerCase();
+
+  if (commandHandlers[command]) {
+    await commandHandlers[command](message, args);
   }
 });
 

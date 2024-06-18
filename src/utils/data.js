@@ -1,16 +1,16 @@
-import fs from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { resolve } from 'path';
 
-const materialsPath = 'data/materials.json';
+const dataFilePath = resolve('data/materials.json');
 
 export function loadMaterials() {
-  const data = fs.readFileSync(materialsPath);
-  return JSON.parse(data);
+  if (existsSync(dataFilePath)) {
+    const data = readFileSync(dataFilePath);
+    return JSON.parse(data);
+  }
+  return [];
 }
 
 export function saveMaterials(materials) {
-  fs.writeFileSync(materialsPath, JSON.stringify(materials, null, 2));
-}
-
-export function getMaterials() {
-  return loadMaterials();
+  writeFileSync(dataFilePath, JSON.stringify(materials, null, 2));
 }
