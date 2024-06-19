@@ -9,7 +9,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export async function filterMaterialsWithOpenAI(query, filteredMaterials) {
-  console.log(filteredMaterials)
+
   const prompt = `
     Given the following list of educational materials, provide the ones that best match the query: "${query}"
 
@@ -32,9 +32,10 @@ export async function filterMaterialsWithOpenAI(query, filteredMaterials) {
     max_tokens: 300,
   });
 
+
   const resultText = response.data.choices[0].message.content.trim();
-  console.log('resultText');
-  console.log(resultText);
+  // console.log('resultText');
+  // console.log(resultText);
 
   // Extract material IDs from the response
   const idMatches = resultText.match(/\b[a-f0-9\-]{36}\b/g); // Match UUID format

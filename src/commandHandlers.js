@@ -1,6 +1,6 @@
-// commandHandlers.js
 import { findEducationalMaterial } from './commands/find.js';
 import { processNewMessagesFromLink, editMaterial, viewMaterial, deleteMaterial } from './utils/materialManager.js';
+import { loadFeedback, saveFeedback } from './utils/data.js';
 import helpText from './help.js';
 import helpAdminText from './helpAdmin.js';
 import { isAdmin } from './utils/checkAdmin.js';
@@ -8,8 +8,55 @@ import { isAdmin } from './utils/checkAdmin.js';
 const commandHandlers = {
   '!bot': async (message, args) => {
     const query = args.join(' ').trim();
-    const response = await findEducationalMaterial(query);
+    const response = await findEducationalMaterial(query, message.author.id, message.author.username);
     message.reply(`Here are some materials I think you might find helpful:\n${response}`);
+  },
+  '!feedback': async (message, args) => {
+    const feedbackType = args.shift();
+    const detailedFeedback = args.join(' ').trim();
+
+    if (feedbackType !== 'yes' && feedbackType !== 'no') {
+      return message.reply('Please reply with `!feedback yes` or `!feedback no <tell us what you were looking for>`.');
+    }
+
+    const feedbackData = loadFeedback();
+    const userFeedback = feedbackData.find(fb => fb.userId === message.author.id && fb.feedback === null);
+    if (userFeedback) {
+      userFeedback.feedback = feedbackType;
+      if (feedbackType === 'no' && detailedFeedback) {
+        userFeedback.detailedFeedback = detailedFeedback;
+      }
+      saveFeedback(feedbackData);
+      message.reply('Thank you for your feedback!');
+    } else {
+      message.reply('No recent search found to provide feedback for.');
+    }
+  },
+  '!reviewfeedback': (message) => {
+    if (!isAdmin(message.author.id)) {
+      return message.reply('You do not have permission to use this command.');
+    }
+    const feedbackData = loadFeedback();
+    const unreviewedFeedback = feedbackData.filter(fb => fb.feedback);
+
+    if (unreviewedFeedback.length === 0) {
+      return message.reply('No feedback to review.');
+    }
+
+    const feedbackText = unreviewedFeedback.map((fb, index) =>
+      `**Feedback #${index + 1}**\n**User:** ${fb.username}\n**Query:** ${fb.query}\n**Resulting material:**\n${fb.materials.join('\n')}\n**Feedback:** ${fb.feedback}\n${fb.detailedFeedback ? `**Details:** ${fb.detailedFeedback}` : ''}\n`
+    ).join('\n');
+
+    message.reply(feedbackText);
+  },
+  '!clearfeedback': (message) => {
+    if (!isAdmin(message.author.id)) {
+      return message.reply('You do not have permission to use this command.');
+    }
+
+    // Clear all feedback
+    saveFeedback([]);
+    message.reply('All feedback has been cleared.');
   },
   '!add': async (message, args) => {
     if (!isAdmin(message.author.id)) {

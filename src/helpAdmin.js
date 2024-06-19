@@ -21,7 +21,19 @@ const helpAdminText = `
    - **Description:** Delete the material identified by the material ID.
    - **Usage:** \`!delete f323d0fb-9617-412c-b6af-9e56ff6b4d86\`
 
-6. **!help**
+6. **!feedback [yes/no]**
+   - **Description:** Provide feedback on whether the materials provided were helpful.
+   - **Usage:** \`!feedback yes\` or \`!feedback no\`
+
+7. **!reviewfeedback**
+   - **Description:** Review user feedback on the provided materials.
+   - **Usage:** \`!reviewfeedback\`
+
+8. **!clearfeedback**
+   - **Description:** Clear all feedback from the system.
+   - **Usage:** \`!clearfeedback\`
+
+9. **!help**
    - **Description:** Display this help message.
    - **Usage:** \`!help\`
 `;

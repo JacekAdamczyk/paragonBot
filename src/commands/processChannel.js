@@ -1,16 +1,11 @@
 import { Client, GatewayIntentBits } from 'discord.js';
-import { Configuration, OpenAIApi } from 'openai';
 import { loadMaterials, saveMaterials } from '../utils/data.js';
 import { summarizeAndExtractKeywords } from '../utils/openaiUtils.js';
+import { handleRateLimit } from '../utils/rateLimitHandler.js'; // Import rate limit handler
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
 
 const processBot = new Client({
   intents: [
@@ -26,10 +21,10 @@ processBot.once('ready', async () => {
   //1251056574156505089
   //1251056553050636300
   //1251798559469211681
-  const channelId = '1251056574156505089'; // Replace with your channel ID
+  const channelId = '1251798559469211681'; // Replace with your channel ID
   const channel = processBot.channels.cache.get(channelId);
   let lastMessageId;
-  let lastMessageTime = null;
+  let lastMessageTime = null; // Initialize lastMessageTime
 
   const materials = loadMaterials().map(material => ({
     id: material.id || uuidv4(),
@@ -75,10 +70,9 @@ processBot.once('ready', async () => {
         });
       }
 
-      // Update author information
       currentMaterial.author = message.author.globalName;
 
-      lastMessageTime = message.createdTimestamp;
+      lastMessageTime = message.createdTimestamp; // Update lastMessageTime
     });
 
     if (messages.size < 100) {
@@ -91,7 +85,6 @@ processBot.once('ready', async () => {
     materials.push({ ...currentMaterial });
   }
 
-  // Summarize and extract keywords for each material concurrently
   const processedMaterials = await processMaterials(materials);
 
   saveMaterials(processedMaterials);
@@ -112,19 +105,74 @@ function isNewMaterial(message, lastMessageTime) {
   return timeDifference > fiveMinutes;
 }
 
-async function processMaterials(materials) {
-  const summaries = await Promise.all(materials.map(async (material) => {
-    if (material.messages && material.messages.length > 0) {
-      try {
-        const textContent = material.messages.map(msg => msg.content).join(' ');
-        const result = await summarizeAndExtractKeywords(textContent);
-        return { ...material, ...result };
-      } catch (error) {
-        console.error('Error summarizing and extracting keywords:', error);
-        return material;
+async function fetchMessagesWithRateLimit(channel, options) {
+  let allMessages = [];
+  let lastMessageId = options.before;
+
+  while (true) {
+    if (lastMessageId) {
+      options.before = lastMessageId;
+    }
+
+    try {
+      const response = await channel.messages.fetch(options);
+      if (response.size === 0) break;
+
+      const messagesArray = Array.from(response.values()).reverse();
+      allMessages = allMessages.concat(messagesArray);
+
+      lastMessageId = response.last().id;
+
+      if (response.size < 100) break;
+
+      // Check and handle rate limit headers
+      await handleRateLimit(response);
+
+      // Pause to respect rate limits
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    } catch (error) {
+      if (error.response && error.response.status === 429) {
+        await handleRateLimit(error.response);
+      } else {
+        throw error;
       }
     }
-    return material;
-  }));
-  return summaries;
+  }
+
+  return allMessages;
+}
+
+async function processMaterials(materials) {
+  const MAX_CONCURRENT_REQUESTS = 5;
+  let results = [];
+  let activePromises = [];
+
+  for (const material of materials) {
+    if (material.messages && material.messages.length > 0) {
+      const textContent = material.messages.map(msg => msg.content).join(' ');
+
+      const promise = summarizeAndExtractKeywords(textContent)
+        .then(result => ({ ...material, ...result }))
+        .catch(error => {
+          if (error.response && error.response.status === 429) {
+            return handleRateLimit(error.response).then(() => processMaterials([material])); // Retry the same material after rate limit
+          }
+          console.error('Error summarizing and extracting keywords:', error);
+          return material;
+        });
+
+      activePromises.push(promise);
+
+      if (activePromises.length >= MAX_CONCURRENT_REQUESTS) {
+        results = results.concat(await Promise.all(activePromises));
+        activePromises = [];
+      }
+    }
+  }
+
+  if (activePromises.length > 0) {
+    results = results.concat(await Promise.all(activePromises));
+  }
+
+  return results;
 }
