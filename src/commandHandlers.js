@@ -43,9 +43,13 @@ const commandHandlers = {
       return message.reply('No feedback to review.');
     }
 
-    const feedbackText = unreviewedFeedback.map((fb, index) =>
-      `**Feedback #${index + 1}**\n**User:** ${fb.username}\n**Query:** ${fb.query}\n**Resulting material:**\n${fb.materials.join('\n')}\n**Feedback:** ${fb.feedback}\n${fb.detailedFeedback ? `**Details:** ${fb.detailedFeedback}` : ''}\n`
+    let feedbackText = unreviewedFeedback.map((fb, index) =>
+      `**Feedback #${index + 1}**\n**User:** ${fb.username}\n**Query:** ${fb.query}\n**Resulting material:**\n${fb.materials.join('\n')}\n**Feedback:** ${fb.feedback}\n${fb.detailedFeedback ? `**Details:** ${fb.detailedFeedback}` : ''}\n**ID:** ${fb.id}\n`
     ).join('\n');
+
+    if (feedbackText.length > 2000) {
+      feedbackText = feedbackText.substring(0, 1980) + '\n ...and more';
+    }
 
     message.reply(feedbackText);
   },
@@ -57,6 +61,26 @@ const commandHandlers = {
     // Clear all feedback
     saveFeedback([]);
     message.reply('All feedback has been cleared.');
+  },
+  '!deletefeedback': (message, args) => {
+    if (!isAdmin(message.author.id)) {
+      return message.reply('You do not have permission to use this command.');
+    }
+    const feedbackId = args[0];
+    if (!feedbackId) {
+      return message.reply('Please provide a valid feedback ID.');
+    }
+
+    const feedbackData = loadFeedback();
+    const feedbackIndex = feedbackData.findIndex(fb => fb.id === feedbackId);
+
+    if (feedbackIndex !== -1) {
+      feedbackData.splice(feedbackIndex, 1);
+      saveFeedback(feedbackData);
+      message.reply('Feedback has been deleted.');
+    } else {
+      message.reply('Feedback ID not found.');
+    }
   },
   '!add': async (message, args) => {
     if (!isAdmin(message.author.id)) {

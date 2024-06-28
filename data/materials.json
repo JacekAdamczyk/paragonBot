@@ -1,351 +1,36 @@
 [
   {
-    "id": "d34a644e-3324-4615-863b-1e50830662ee",
-    "messages": [
-      {
-        "id": "1251057426292150342",
-        "content": "**Big Booty - Bottom Pattern(New Listings)**",
-        "timestamp": 1718345733951
-      },
-      {
-        "id": "1251057438673735761",
-        "content": "https://youtu.be/l3Y9GWbbnt4",
-        "timestamp": 1718345736903
-      }
-    ],
-    "links": [
-      "https://youtu.be/l3Y9GWbbnt4"
-    ],
-    "summary": "Video discussing the \"Big Booty\" bottom pattern in new crypto listings.",
-    "description": "Big Booty pattern",
-    "author": "Jacek",
-    "keywords": [
-      "bottom pattern",
-      "new listings",
-      "technical analysis",
-      "market trends",
-      "support levels",
-      "price reversal",
-      "chart patterns",
-      "bullish signals"
-    ],
-    "channelId": "1251056574156505089"
-  },
-  {
-    "id": "5b339aff-b09f-4fc4-95d3-5bf84b8eaae2",
-    "messages": [
-      {
-        "id": "1251429514840510537",
-        "content": "**Cyclicality & Seasonality**",
-        "timestamp": 1718434446774
-      },
-      {
-        "id": "1251429533572136961",
-        "content": "https://youtu.be/1UgFwzWXEm4",
-        "timestamp": 1718434451240
-      }
-    ],
-    "links": [
-      "https://youtu.be/1UgFwzWXEm4"
-    ],
-    "summary": "A video analysis on the cyclicality and seasonality in trading markets, exploring how these patterns influence market trends and trading strategies.",
-    "description": "Cyclicality, Seasonality explained",
-    "author": "Jacek",
-    "keywords": [
-      "cyclicality",
-      "seasonality",
-      "market patterns",
-      "cyclical trends",
-      "seasonal trends",
-      "price movement",
-      "historical data",
-      "market analysis",
-      "trading cycles",
-      "economic cycles",
-      "seasonal effects",
-      "trend prediction"
-    ],
-    "channelId": "1251056574156505089"
-  },
-  {
-    "id": "2725ffb9-d1d8-4049-8a21-75f4209a9711",
-    "messages": [
-      {
-        "id": "1251451122552406089",
-        "content": "**Spot/Perps/Futures**\nPros/Cons\nUse-cases",
-        "timestamp": 1718439598454
-      },
-      {
-        "id": "1251451145571012608",
-        "content": "https://youtu.be/bQ335g269HU",
-        "timestamp": 1718439603942
-      }
-    ],
-    "links": [
-      "https://youtu.be/bQ335g269HU"
-    ],
-    "summary": "A video providing an analysis of the pros and cons of spot, perpetual, and futures trading, including their various use-cases.",
-    "description": "Pros/Cons Use-cases",
-    "author": "Jacek",
-    "keywords": [
-      "spot",
-      "perps",
-      "futures",
-      "pros and cons",
-      "use-cases",
-      "perpetual contracts",
-      "derivatives",
-      "leverage",
-      "market strategies",
-      "trading instruments",
-      "risk and reward",
-      "video"
-    ],
-    "channelId": "1251056574156505089"
-  },
-  {
-    "id": "0cc6162d-b1c7-434f-a6ed-804e2dd834ef",
-    "messages": [
-      {
-        "id": "1251057255156158528",
-        "content": "**Composite Framework **",
-        "timestamp": 1718345693149
-      },
-      {
-        "id": "1251057277235105862",
-        "content": "https://www.youtube.com/watch?v=7frWn8vZ07s",
-        "timestamp": 1718345698413
-      }
-    ],
-    "links": [
-      "https://www.youtube.com/watch?v=7frWn8vZ07s"
-    ],
-    "summary": "A comprehensive guide to using the composite framework in trading. The video covers constructing composite profiles, analyzing market trends, and leveraging this technique to inform trading strategies.",
-    "description": "Composite Framework video",
-    "author": "Jacek",
-    "keywords": [
-      "composite framework",
-      "market analysis",
-      "vwap",
-      "scalping",
-      "heatmaps",
-      "liquidity",
-      "spot play"
-    ],
-    "channelId": "1251056553050636300"
-  },
-  {
-    "id": "36494658-0703-45b2-998a-24495cc4a53e",
-    "messages": [
-      {
-        "id": "1251101466534609009",
-        "content": "**Weekend Comp Logic **",
-        "timestamp": 1718356233963
-      },
-      {
-        "id": "1251101471995465789",
-        "content": "https://www.youtube.com/watch?v=pcY9Jhdj7sI",
-        "timestamp": 1718356235265
-      }
-    ],
-    "links": [
-      "https://www.youtube.com/watch?v=pcY9Jhdj7sI"
-    ],
-    "summary": "An analysis of trading strategies specifically applicable to weekend market compositions.",
-    "description": "Weekend Comp Logic",
-    "author": "Jacek",
-    "keywords": [
-      "weekend comp logic",
-      "composite framework",
-      "analysis",
-      "video",
-      "psychology",
-      "emotional control",
-      "market trends",
-      "spot play",
-      "order blocks",
-      "vwap",
-      "scalping",
-      "EMA"
-    ],
-    "channelId": "1251056553050636300"
-  },
-  {
-    "id": "6505287b-23ca-462e-9334-28080be12017",
-    "messages": [
-      {
-        "id": "1251103041252229140",
-        "content": "**Carrot on a stick**\nhttps://youtu.be/JSVWxPVk9Lc",
-        "timestamp": 1718356609405
-      }
-    ],
-    "links": [
-      "https://youtu.be/JSVWxPVk9Lc"
-    ],
-    "summary": "\"A video explaining the concept of 'carrot on a stick' in trading, likely discussing strategies to motivate or entice traders.\"",
-    "description": "**Carrot on a stick**",
-    "author": "Jacek",
-    "keywords": [
-      "carrot on a stick",
-      "motivation",
-      "trading psychology",
-      "trading mindset",
-      "trader discipline",
-      "goal setting",
-      "incentive systems",
-      "market psychology"
-    ],
-    "channelId": "1251056553050636300"
-  },
-  {
-    "id": "89adcf4b-1a98-4e69-a89e-e65742b5304c",
-    "messages": [
-      {
-        "id": "1251138349679509514",
-        "content": "Liquidity refers to the bids and offers from Market Makers(MMs) or Liquidity Providers\nThese participants are necessary for the two way trade of a market to work \nThe common misconception that Market Marks are the bad guys running your stops is a fallacy\nThere are many types of whales in a market, it's the smaller more nibble players(Think the Orcas) are doing the hunting\nThe larger you are the slower you move\nHow can we use liquidity?\n\nDoes a large buy or sell wall matter?\n\nHow do we know when it matters?\n\n\nIn short, liquidity only matters once it's proven its intent to actually fill. Resting bids and asks are just advertisements, there's no guarantee that resting orders will hold. This is why a lot of people will over simplify \"heatmaps\" or \"orderbooks\". We need to see the orders hold and transact to matter.",
-        "timestamp": 1718365027590
-      },
-      {
-        "id": "1251138380734009416",
-        "content": "Do they matter and when? \n\nYes, they do, for two reasons. First a larger resting order can act as a magnet for price as the market naturally wants to test liquidity like a game of chicken. Second, if resting orders hold and allow aggressive participants to hit into them, it proves they have real intent. Once you know a larger bid or offer has intent, you must respect it. With time and experience you can better judge how much you need to respect it and for how long\nOne of the most important ways to judge the result of passive orders filling is what market it is. Are these large bids filling on major BTC spot exchanges, which represents real demand to buy. Or are these bids on a major perp contract which only tells us are trapping bears for a rotation up.\n.\nThe following is an example of what spot accumulation in a range will look like and how they probably are distributing it right away\n\nHere is a heatmap of the current BTC range on Bitfinex\nIn Red, starting on the right, we can see agro sellers hitting into the passive bid from 54 to 53\nWith the White arrow we can see the wall placed by the bidders. This wall is much thicker than you average wall and should have been respected as such",
-        "timestamp": 1718365034994
-      },
-      {
-        "id": "1251138442314907729",
-        "content": "https://cdn.discordapp.com/attachments/1251056553050636300/1251138442314907729/unknown.png?ex=6672c2f9&is=66717179&hm=05e10af6d4db263ba1c47ecc37ae0c44c163abfd125d4d59f081ca5aec9f59d5&",
-        "timestamp": 1718365049764
-      }
-    ],
-    "links": [],
-    "summary": "This text discusses the role and misconceptions surrounding Market Makers (MMs) and liquidity providers in trading. It explains that large, resting bids and asks—often visualized in order books or heatmaps—only matter once they show intent to fill. Larger orders can act as price magnets and signal real market intent when they hold, prompting traders to respect these movements. Successfully interpreting these signals requires understanding the market and differentiating between genuine demand and tactical positioning. Examples are given using a BTC spot exchange heatmap, where aggressive sellers interact with a significant bid wall, demonstrating the importance of respecting substantial orders.",
-    "description": "Liquidity, orders, market dynamics",
-    "author": "Jacek",
-    "keywords": [
-      "liquidity",
-      "market makers",
-      "whales",
-      "bids and asks",
-      "heatmaps",
-      "orderbooks",
-      "resting orders",
-      "passive orders",
-      "bid wall",
-      "sell wall",
-      "BTC spot exchanges",
-      "spot accumulation",
-      "range"
-    ],
-    "channelId": "1251056553050636300"
-  },
-  {
-    "id": "fb7be135-1f2b-4e95-901f-12f13d6abe2f",
-    "messages": [
-      {
-        "id": "1251190117926699178",
-        "content": "**Vwap Updated**",
-        "timestamp": 1718377370102
-      },
-      {
-        "id": "1251190167696576523",
-        "content": "https://youtu.be/QWZAhgQZq6c",
-        "timestamp": 1718377381968
-      },
-      {
-        "id": "1251190199753379851",
-        "content": "**Notes from Vwap video:**\n-Vwap Types: Time-Base, Anchored & Rolling\nYearly, Quarterly, Monthly, Weekly & Daily\n\n-Anatomy: Vwap + Dev. Bands + Previous Values \nAMT:Profile Logic\n\n-Simple Levels\n-System:Reversion or Momentum \n-Bias/Thesis: Over/Under; Slope; Structure(momentum loss)\n-Execution: Entry/Exit\n-Risk: Invalidation - Vwap, Standard Dev bands;Inbetween & prev. values\n\n-Reversion: Flat Slope;Enter as a fade at bands to take back to Vwap. Enter low volume, exit high volume. Looser risk, more discretionary\n \n-Momentum: Sloped;Enter at vwap to target bands. Enter high volume, exit low volume. Tighter risk, less discretionary \n\n-Swing - Trend following\nYearly, Quarterly, Monthly\n\n-Intraday - Reversion\nWeekly, Daily\n\n-Scalp - Reversion or Momentum\nDaily(large emphasis on bands), Anchored\n\nSeparate windows for vwaps & comps\nSeparate time-based vwaps",
-        "timestamp": 1718377389611
-      }
-    ],
-    "links": [
-      "https://youtu.be/QWZAhgQZq6c"
-    ],
-    "summary": "The video on VWAP (Volume Weighted Average Price) covers different types such as Time-Base, Anchored, and Rolling, applicable for various timeframes like yearly, quarterly, monthly, weekly, and daily. Key concepts include the VWAP itself, deviation bands, and previous values, with AMT (auction market theory) influencing the profile logic. Trading strategies involve reversion and momentum systems, with entry/exit based on volume and risk managed via deviation bands and previous values. Reversion strategies use a flat slope and target VWAP during low volume entries, while momentum strategies use a sloped VWAP with high volume entries. The video also distinguishes between swing (trend following), intraday (reversion), and scalp (reversion or momentum",
-    "description": "VWAP types, preferences",
-    "author": "Jacek",
-    "keywords": [
-      "vwap types",
-      "anchored vwap",
-      "rolling vwap",
-      "deviation bands",
-      "AMT profile logic",
-      "reversion",
-      "momentum",
-      "entry/exit strategy",
-      "invalidation points",
-      "intraday reversion",
-      "scalp strategy",
-      "trend following",
-      "time-based vwap"
-    ],
-    "channelId": "1251056553050636300"
-  },
-  {
-    "id": "5ccc3f48-0664-44d2-87d3-6bf6cb14329b",
-    "messages": [
-      {
-        "id": "1252547786617126934",
-        "content": "**Simple System**\nCondensed breakdown of my Intraday System, simplified for educational purpose\n-Bias\n-Level\n-Setups\n-Sizing\n-Deploying Setups",
-        "timestamp": 1718701063542
-      },
-      {
-        "id": "1252547822235156542",
-        "content": "https://paragongroup.cdn.spotlightr.com/watch/MTMwMzQ2Mw==",
-        "timestamp": 1718701072034
-      }
-    ],
-    "links": [
-      "https://paragongroup.cdn.spotlightr.com/watch/MTMwMzQ2Mw=="
-    ],
-    "summary": "A condensed guide to an intraday trading system covering bias, levels, setups, sizing, and deploying setups for educational purposes.",
-    "description": "Condensed Intraday System Breakdown",
-    "author": "Jacek",
-    "keywords": [
-      "Intraday system",
-      "bias",
-      "level",
-      "setups",
-      "sizing",
-      "deploying setups",
-      "educational",
-      "simplified",
-      "breakdown",
-      "intraday trading",
-      "trading system",
-      "intraday strategies"
-    ],
-    "channelId": "1251056553050636300"
-  },
-  {
-    "id": "22f18886-97c0-4885-83d1-fe3ac9ac1f31",
+    "id": "874b0059-0c94-423e-8633-47e8638ad024",
     "messages": [
       {
         "id": "1251798577962029161",
-        "content": "**Spot Targets and how to TP/Manage Risk**\n\n- What is the goal?\n- Define it. Cyclical, Positional, Narrative, Trade, Extra Capital\n- What is your risk profile?\n- What is the base case expectancy (I always keep my targets very reasonable and allow the market to surprise me)\n- What is the invalidation\n- Where should you TP?\n- What are the early warning signs?\n- Is there a sell the news catalyst?\n- Are there signs of weakness - relative or direct?\n- Are there signs of froth - TL raising targets or your coin is getting main charactered.\n- Are you ok with hedging, do you have enough capital for it?\n- What is your invalidation on the hedge?\n- Are you ok with TP’ing early?\n- Can you extract this value elsewhere with a better r profile?\n- What will you do with new free capital? Rotate, wait, place back into majors?\n- Has the narrative shifted?\n- Are you underperforming? - Are other coins market wide mooning? Or just your sector? \n- Are you buying the leaders of the narrative or laggards? Beta plays have underperformed mainly or only get bursts of outperformance.\n- Should you give you bags room to breathe?",
+        "content": "Spot Targets and how to TP/Manage Risk\n\n- What is the goal?\n- Define it. Cyclical, Positional, Narrative, Trade, Extra Capital\n- What is your risk profile?\n- What is the base case expectancy (I always keep my targets very reasonable and allow the market to surprise me)\n- What is the invalidation\n- Where should you TP?\n- What are the early warning signs?\n- Is there a sell the news catalyst?\n- Are there signs of weakness - relative or direct?\n- Are there signs of froth - TL raising targets or your coin is getting main charactered.\n- Are you ok with hedging, do you have enough capital for it?\n- What is your invalidation on the hedge?\n- Are you ok with TP’ing early?\n- Can you extract this value elsewhere with a better r profile?\n- What will you do with new free capital? Rotate, wait, place back into majors?\n- Has the narrative shifted?\n- Are you underperforming? - Are other coins market wide mooning? Or just your sector? \n- Are you buying the leaders of the narrative or laggards? Beta plays have underperformed mainly or only get bursts of outperformance.\n- Should you give you bags room to breathe?",
         "timestamp": 1718522438279
       }
     ],
     "links": [],
-    "summary": "A guide on setting spot targets and managing risk, covering key aspects such as defining goals, assessing risk profiles, and maintaining reasonable base case expectations. It includes determining invalidation points and take-profit (TP) levels, recognizing early warning signs, and considering catalysts for selling. The guide also explores assessing market conditions, hedging strategies, potential outcome adjustments like rotating capital, and evaluating performance relative to market trends. Key questions include the practicality of early TP, reallocating capital for better returns, and the impact of narrative shifts on investments.",
-    "description": "Spot Targets, TP/Manage Risk",
+    "summary": "Spot Trading Targets and Risk Management: Goals, risk profile, TP points, invalidation, signs, hedging.",
+    "description": "TP/Manage Risk Steps",
     "author": "Jacek",
     "keywords": [
       "spot targets",
+      "TP",
       "risk management",
-      "cyclical trading",
-      "positional trading",
-      "invalidation signs",
-      "take profit strategies",
+      "cyclical",
+      "positional",
+      "sell the news",
       "hedging",
+      "invalidation",
       "capital rotation",
-      "narrative shift",
-      "sector performance",
-      "market leaders",
-      "froth indicators"
+      "market narrative",
+      "signs of weakness",
+      "signs of froth",
+      "performance evaluation"
     ],
     "channelId": "1251798559469211681"
   },
   {
-    "id": "658853a7-33ae-4f38-9287-23c02a74c00a",
+    "id": "c0a1b7d9-eb81-406b-8cfd-bec7e1927468",
     "messages": [
       {
         "id": "1251802644788285450",
@@ -361,11 +46,11 @@
     "links": [
       "https://www.youtube.com/watch?v=wfGgM0LI6l0"
     ],
-    "summary": "A comprehensive trade walkthrough covering setup and framework, utilizing multiple timeframes, identifying triggers, making adjustments, determining sizing, defining invalidations, and employing a multiple trade approach.",
-    "description": "Trade framework walkthrough",
+    "summary": "Trade walkthrough covering setup, timeframes, triggers, sizing, and invalidations.",
+    "description": "Trade setup framework",
     "author": "Jacek",
     "keywords": [
-      "trade walkthrough",
+      "Trade walkthrough",
       "setup",
       "framework",
       "multiple timeframes",
@@ -373,12 +58,12 @@
       "adjustments",
       "sizing",
       "invalidations",
-      "trade approach"
+      "multiple trade approach"
     ],
     "channelId": "1251798559469211681"
   },
   {
-    "id": "00091280-ff16-4605-83ce-7974bdc62f20",
+    "id": "7c4b5acf-6c9b-4ece-ae30-23339a80b1f2",
     "messages": [
       {
         "id": "1251812448470564875",
@@ -394,27 +79,22 @@
     "links": [
       "https://youtu.be/sOxlWb0qpyw?si=xe4j-4hclOG13OUr"
     ],
-    "summary": "The video discusses the importance of trade journaling, emphasizing the value of handwritten notes and self-reflection over just data collection. The speaker shares personal experiences underscoring how journaling can enhance trading strategies and decision-making.",
+    "summary": "Trade journaling insights: value self-reflection over just data collection; use pen and paper notes.",
     "description": "Trade journaling insights",
     "author": "Jacek",
     "keywords": [
       "trade journaling",
-      "pen and paper notes",
       "self-reflection",
       "data collection",
-      "trade logging",
-      "trading diary",
-      "trading journal benefits",
-      "trade analysis",
-      "behavioral insights",
-      "note-taking",
-      "trading habits",
-      "performance review"
+      "pen and paper notes",
+      "personal experiences",
+      "trading psychology",
+      "trade analysis"
     ],
     "channelId": "1251798559469211681"
   },
   {
-    "id": "6ef5f20f-c2a0-4e8a-8fdf-1515f5912810",
+    "id": "3f7926b4-3876-446d-8700-8c565267521c",
     "messages": [
       {
         "id": "1251825364372820031",
@@ -433,34 +113,35 @@
       },
       {
         "id": "1251825511055757353",
-        "content": "https://cdn.discordapp.com/attachments/1251798559469211681/1251825511055757353/Screenshot_2024-05-14_at_9.png?ex=66729fdb&is=66714e5b&hm=987f3d767d766f654f231aa9926593e335a37d74172f19f27fd939d0e6c7add4&",
+        "content": "https://cdn.discordapp.com/attachments/1251798559469211681/1251825511055757353/Screenshot_2024-05-14_at_9.png?ex=667e7d5b&is=667d2bdb&hm=6a1fdf831da26539d7c34af1971b1b6863d248789401412a0134310dfbf649d8&",
         "timestamp": 1718528859673
       }
     ],
     "links": [
       "https://x.com/MacroOps/status/1276205912013840384"
     ],
-    "summary": "The cheat sheet outlines a strategy for identifying trend exhaustion in trading, focusing on momentum and sentiment. It explains that traders should look for signs of trend exhaustion when momentum no longer aligns with the consensus direction. The document details how mark-ups often precede consolidations, tracked along strong H4 or daily trends. It suggests looking for major support levels or higher timeframe (HTF) trends when these trends break. The strategy also applies to reversals, noting that traders should seek exhaustion in downside momentum as confidence in the new downtrend rises. It highlights common patterns where traders' perceptions often vary at different stages of a trend.",
-    "description": "Trend exhaustion markers",
+    "summary": "Cheat sheet on trading sentiment: look for trend exhaustion when momentum diverges from trend.",
+    "description": "Trend exhaustion indicates reversal.",
     "author": "Jacek",
     "keywords": [
-      "sentiment",
+      "sentiment analysis",
       "trend exhaustion",
       "momentum",
-      "mark-up",
+      "mark up",
       "consolidation",
       "H4 trend",
       "daily trend",
-      "support levels",
+      "weekly trend",
+      "major support",
+      "HTF trend",
       "gap fill system",
-      "reversal",
-      "downside momentum",
-      "HTF trend"
+      "trend traders",
+      "trend reversal"
     ],
     "channelId": "1251798559469211681"
   },
   {
-    "id": "900393b5-2710-4c81-812d-cf92f4a6d555",
+    "id": "19f5eacf-12d6-46f8-b5a3-e5415826d409",
     "messages": [
       {
         "id": "1251900108388306985",
@@ -476,29 +157,26 @@
     "links": [
       "https://youtu.be/IHpvO5nVlvI?si=AXVrj25pfAxhm9FB"
     ],
-    "summary": "A concise video discussing market psychology with examples from the current bull market, highlighting how Bitcoin's strong performance can leave investors behind and why waiting for the perfect entry point might not be the best strategy.",
-    "description": "BTC market psychology",
+    "summary": "Short video on BTC market psychology and why ideal entries may not be optimal in a bull market.",
+    "description": "Bull market psychology explanation",
     "author": "Jacek",
     "keywords": [
       "market psychology",
       "bull market",
       "BTC",
-      "Bitcoin",
       "ideal entry",
-      "strong market",
       "examples",
-      "FOMO",
-      "emotional control",
-      "missed opportunities"
+      "strong market",
+      "Bitcoin"
     ],
     "channelId": "1251798559469211681"
   },
   {
-    "id": "aa25fae4-5131-4f5c-bd99-0914642418d2",
+    "id": "a536898c-a9c2-48dc-a58d-b3a450ab8857",
     "messages": [
       {
         "id": "1252251148057055273",
-        "content": "**Market Psychology **\n\nUnderstanding Market Selloff Dynamics\n\n- Psychological Relationship between Ranges & Trends\n- How Macro Bottoms Form\n- Risk Sells off First\n- Relationship between Risk & Quality\n- Volatility Compression\n- Reflexivity Early in Selloffs",
+        "content": "Market Psychology \n\nUnderstanding Market Selloff Dynamics\n\n- Psychological Relationship between Ranges & Trends\n- How Macro Bottoms Form\n- Risk Sells off First\n- Relationship between Risk & Quality\n- Volatility Compression\n- Reflexivity Early in Selloffs",
         "timestamp": 1718630339398
       },
       {
@@ -510,24 +188,23 @@
     "links": [
       "https://youtu.be/OHJAkMjL-FQ?si=KgLoQnoJBSLsG7mE"
     ],
-    "summary": "An analysis of market selloff dynamics, focusing on the psychological relationship between ranges and trends, formation of macro bottoms, and the sequencing of risk selloff. It examines the interplay between risk and quality, volatility compression, and reflexivity in early selloffs.",
-    "description": "Market Selloff Dynamics",
+    "summary": "Market selloff dynamics: psychology, risk, volatility, and trends.",
+    "description": "Understanding market selloff dynamics",
     "author": "Jacek",
     "keywords": [
       "market psychology",
       "selloff dynamics",
+      "psychological relationship",
       "macro bottoms",
+      "risk and quality",
       "volatility compression",
       "reflexivity",
-      "risk and quality",
-      "ranges and trends",
-      "psychological relationship",
-      "risk sells off first"
+      "ranges and trends"
     ],
     "channelId": "1251798559469211681"
   },
   {
-    "id": "65437e37-9836-4cea-85e4-629c9bfe6c92",
+    "id": "48a4cf2b-8514-46e9-8fb3-770cd17ba3e1",
     "messages": [
       {
         "id": "1252285384063451338",
@@ -543,54 +220,22 @@
     "links": [
       "https://youtu.be/-jVeW4DvMqU?si=Q15J-u7go_OW27RN"
     ],
-    "summary": "An analysis of trend compression trading using DOGE and BTC's price action as examples.",
-    "description": "\"DOGE and BTC\"",
+    "summary": "Analyzing DOGE and BTC price action in trend compression trades.",
+    "description": "Trend Compression Trade",
     "author": "Jacek",
     "keywords": [
-      "Trend Compression",
+      "Trend compression",
       "DOGE",
       "BTC",
-      "PA",
-      "examples",
-      "video",
-      "https",
-      "analyzing trends",
       "price action",
-      "crypto markets"
+      "trading examples",
+      "volume analysis",
+      "moving averages",
+      "breakout strategies",
+      "support and resistance",
+      "market structure",
+      "trend lines"
     ],
     "channelId": "1251798559469211681"
-  },
-  {
-    "id": "c2aa633e-8240-4978-92db-cfdb29b74b99",
-    "messages": [
-      {
-        "id": "1251177582917980285",
-        "content": "Scalping System\nFull breakdown on...\nWhat tools I am using \nChart setups\nMicrostructure \nReversion \nMomentum\nSetups\nRisk\nReversion on momentum days\nResting orders",
-        "timestamp": 1718374381523
-      },
-      {
-        "id": "1251177588240420904",
-        "content": "https://www.youtube.com/watch?v=lTertUKNkPE",
-        "timestamp": 1718374382792
-      }
-    ],
-    "links": [
-      "https://www.youtube.com/watch?v=lTertUKNkPE"
-    ],
-    "summary": "A comprehensive guide to a scalping system, covering essential tools, chart setups, market microstructure, reversion strategies, momentum setups, risk management, reversion on momentum days, and the use of resting orders. Detailed insights provided through a video link: https://www.youtube.com/watch?v=lTertUKNkPE.",
-    "description": "Scalping tools and setups",
-    "author": "Jacek",
-    "keywords": [
-      "Scalping System",
-      "chart setups",
-      "microstructure",
-      "reversion",
-      "momentum",
-      "setups",
-      "risk",
-      "reversion on momentum days",
-      "resting orders"
-    ],
-    "channelId": "1251056553050636300"
   }
 ]

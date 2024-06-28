@@ -23,12 +23,13 @@ export async function summarizeAndExtractKeywords(text) {
       messages: [
         {
           role: 'system', content: `You are an assistant that summarizes trading-related content for indexing and search purposes. 
-          Your summaries should be concise but informative enough to understand the main points and context. 
+          Your summaries should be concise (maximum 100 characters) but informative enough to understand the main points and context. 
           The following terms are important and their meanings should be taken into account:
           ${importantTermsText}
           Consider the following examples:
           Example 1: "A detailed analysis of market trends and trading strategies."
           Example 2: "Insights on the psychological aspects of trading and risk management."
+          Avoid links - this is NOT how it should look: "Weekend Comp Logic Analysis: https://www.youtube.com/watch?v=pcY9Jhdj7sI"
           Summarize the following text accordingly:`
         },
         { role: 'user', content: text }
@@ -45,7 +46,7 @@ export async function summarizeAndExtractKeywords(text) {
           role: 'system', content: `
           You are an assistant that extracts keywords for trading-related content to optimize search indexing, semantic search, AI search. 
           Extract relevant keywords, including synonyms and related terms, to enhance searchability. 
-          The following terms are important and their meanings should be taken into account:
+          The following terms are important and their meanings should be taken into account, but ONLY if they're mentioned in the material or video:
           ${importantTermsText}
           Exclude generic terms like "youtube", "trading", "investing", "finance", "cryptocurrencies"
           Consider the following examples for guidance:
@@ -74,7 +75,7 @@ export async function summarizeAndExtractKeywords(text) {
       max_tokens: 50,
     });
 
-    const description = descriptionResponse.data.choices[0].message.content.trim();
+    const description = descriptionResponse.data.choices[0].message.content.trim().replace(/\*\*/g, '');
 
     return { summary, keywords, description };
   } catch (error) {
@@ -87,3 +88,4 @@ export async function summarizeAndExtractKeywords(text) {
     }
   }
 }
+

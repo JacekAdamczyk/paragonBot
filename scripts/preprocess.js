@@ -20,19 +20,31 @@ async function createEmbeddings() {
   const documents = materials.map(material => material.summary + ' ' + material.messages.map(m => m.content).join(' '));
 
   const embeddings = await Promise.all(documents.map(async (document) => {
-    const response = await fetch(OPENAI_API_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'text-embedding-ada-002',
-        input: document
-      })
-    });
-    const result = await response.json();
-    return result.data[0].embedding; // Assuming the response has the embedding in this structure
+    try {
+      const response = await fetch(OPENAI_API_URL, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'text-embedding-ada-002',
+          input: document
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.data && result.data[0] && result.data[0].embedding) {
+        return result.data[0].embedding;
+      } else {
+        console.error('Unexpected response structure:', result);
+        throw new Error('Failed to retrieve embedding');
+      }
+    } catch (error) {
+      console.error('Error fetching embedding:', error);
+      throw error;
+    }
   }));
 
   // Save embeddings

@@ -21,9 +21,9 @@ const helpAdminText = `
    - **Description:** Delete the material identified by the material ID.
    - **Usage:** \`!delete f323d0fb-9617-412c-b6af-9e56ff6b4d86\`
 
-6. **!feedback [yes/no]**
-   - **Description:** Provide feedback on whether the materials provided were helpful.
-   - **Usage:** \`!feedback yes\` or \`!feedback no\`
+6. **!feedback [yes/no] [details]**
+   - **Description:** Provide feedback on whether the materials provided were helpful. Include details if the answer is 'no'.
+   - **Usage:** \`!feedback yes\` or \`!feedback no The material did not cover advanced scalping techniques\`
 
 7. **!reviewfeedback**
    - **Description:** Review user feedback on the provided materials.
@@ -33,7 +33,11 @@ const helpAdminText = `
    - **Description:** Clear all feedback from the system.
    - **Usage:** \`!clearfeedback\`
 
-9. **!help**
+9. **!deletefeedback [feedbackId]**
+   - **Description:** Delete specific feedback identified by its unique feedback ID.
+   - **Usage:** \`!deletefeedback a1b2c3d4-5678-90ab-cdef-1234567890ab\`
+
+10. **!help**
    - **Description:** Display this help message.
    - **Usage:** \`!help\`
 `;
