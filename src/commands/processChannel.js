@@ -5,6 +5,7 @@ import { handleRateLimit } from '../utils/rateLimitHandler.js';
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import { connectDB } from '../utils/db.js';
 
 dotenv.config();
 
@@ -27,93 +28,131 @@ function saveLastMessageId(messageId) {
   fs.writeFileSync(LAST_MESSAGE_ID_FILE, messageId, 'utf-8');
 }
 
+async function loadProcessedMessageIds() {
+  const { db } = await connectDB();
+  if (!db) {
+    console.error('Database connection is not established.');
+    return new Set();
+  }
+  const collection = db.collection('processedMessageIds');
+  const docs = await collection.find().toArray();
+  return new Set(docs.map(doc => doc.id));
+}
+
+async function saveProcessedMessageIds(processedMessageIds) {
+  const { db } = await connectDB();
+  if (!db) {
+    console.error('Database connection is not established.');
+    return;
+  }
+  const collection = db.collection('processedMessageIds');
+  await collection.deleteMany({});
+  await collection.insertMany(Array.from(processedMessageIds).map(id => ({ id })));
+}
+
 processBot.once('ready', async () => {
   console.log(`Process Bot logged in as ${processBot.user.tag}!`);
-  // 1251056574156505089
-  // 1251056553050636300
-  // 1251798559469211681
-  const channelId = '1251798559469211681'; // Replace with your channel ID
+  const channelId = '1251056553050636300'; // Replace with your channel ID
   const channel = processBot.channels.cache.get(channelId);
+
+  if (!channel) {
+    console.error(`Channel with ID ${channelId} not found.`);
+    process.exit(1);
+  }
+
   let lastMessageId = loadLastMessageId();
   let lastMessageTime = null;
   const isTestMode = process.env.MODE === 'test';
   const messageLimit = isTestMode ? 100 : Infinity; // Set limit for test mode
 
-  const materials = loadMaterials().map(material => ({
+  let materials = await loadMaterials();
+  materials = materials.map(material => ({
     id: material.id || uuidv4(),
     ...material
   }));
 
-  let currentMaterial = { id: uuidv4(), messages: [], links: [], summary: '', description: '', author: '', keywords: [], channelId };
-  const processedMessageIds = new Set(materials.flatMap(material => material.messages.map(msg => msg.id)));
+  let processedMessageIds = await loadProcessedMessageIds();
 
+  let currentMaterial = { id: uuidv4(), messages: [], links: [], summary: '', description: '', author: '', keywords: [], channelId };
   let messageCount = 0; // Counter to limit the number of fetched messages
 
-  while (messageCount < messageLimit) {
-    const options = { limit: 100 };
-    if (lastMessageId) {
-      options.before = lastMessageId;
-    }
-
-    const messages = await channel.messages.fetch(options);
-    const messagesArray = Array.from(messages.values()).reverse(); // Reverse the order to process oldest first
-
-    for (const message of messagesArray) {
-      if (processedMessageIds.has(message.id)) {
-        continue;
+  try {
+    while (messageCount < messageLimit) {
+      const options = { limit: 100 };
+      if (lastMessageId) {
+        options.before = lastMessageId;
       }
 
-      // Remove double asterisks from the message content
-      const sanitizedContent = message.content.replace(/\*\*/g, '');
+      const messages = await channel.messages.fetch(options);
+      const messagesArray = Array.from(messages.values()).reverse(); // Reverse the order to process oldest first
 
-      if (isNewMaterial(message, lastMessageTime)) {
-        if (currentMaterial.messages.length > 0) {
-          materials.push({ ...currentMaterial });
-          currentMaterial = { id: uuidv4(), messages: [], links: [], summary: '', description: '', author: '', keywords: [], channelId };
+      if (!messagesArray.length) {
+        break;
+      }
+
+      for (const message of messagesArray) {
+        if (processedMessageIds.has(message.id)) {
+          continue;
         }
-      }
 
-      if (sanitizedContent) {
-        currentMaterial.messages.push({ id: message.id, content: sanitizedContent, timestamp: message.createdTimestamp });
-        processedMessageIds.add(message.id);
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        const urls = sanitizedContent.match(urlRegex);
-        if (urls) {
-          currentMaterial.links.push(...urls);
+        const sanitizedContent = message.content.replace(/\*\*/g, '');
+
+        if (isNewMaterial(message, lastMessageTime)) {
+          if (currentMaterial.messages.length > 0) {
+            materials.push({ ...currentMaterial });
+            currentMaterial = { id: uuidv4(), messages: [], links: [], summary: '', description: '', author: '', keywords: [], channelId };
+          }
         }
-      }
-      if (message.attachments.size > 0) {
-        message.attachments.forEach(attachment => {
-          currentMaterial.messages.push({ id: attachment.id, content: attachment.url, timestamp: message.createdTimestamp });
-          processedMessageIds.add(attachment.id);
-        });
+
+        if (sanitizedContent && !currentMaterial.messages.some(msg => msg.id === message.id)) {
+          currentMaterial.messages.push({ id: message.id, content: sanitizedContent, timestamp: message.createdTimestamp });
+          processedMessageIds.add(message.id);
+          const urlRegex = /(https?:\/\/[^\s]+)/g;
+          const urls = sanitizedContent.match(urlRegex);
+          if (urls) {
+            currentMaterial.links.push(...urls);
+          }
+        }
+
+        if (message.attachments.size > 0) {
+          message.attachments.forEach(attachment => {
+            if (!currentMaterial.messages.some(msg => msg.id === message.id)) {
+              currentMaterial.messages.push({ id: message.id, content: attachment.url, timestamp: message.createdTimestamp });
+              processedMessageIds.add(message.id);
+            }
+          });
+        }
+
+        currentMaterial.author = message.author.globalName;
+
+        lastMessageTime = message.createdTimestamp;
+        messageCount++;
+        if (messageCount >= messageLimit) break; // Stop if we've reached the limit in test mode
       }
 
-      currentMaterial.author = message.author.globalName; // Use globalName or username as appropriate
+      if (messages.size < 100 || messageCount >= messageLimit) {
+        break;
+      }
 
-      lastMessageTime = message.createdTimestamp;
-      messageCount++;
-      if (messageCount >= messageLimit) break; // Stop if we've reached the limit in test mode
+      lastMessageId = messages.last().id;
+      saveLastMessageId(lastMessageId); // Save the last processed message ID
     }
 
-    if (messages.size < 100 || messageCount >= messageLimit) {
-      break;
+    if (currentMaterial.messages.length > 0) {
+      materials.push({ ...currentMaterial });
     }
 
-    lastMessageId = messages.last().id;
-    saveLastMessageId(lastMessageId); // Save the last processed message ID
+    const processedMaterials = await processMaterials(materials);
+
+    await saveMaterials(processedMaterials);
+    await saveProcessedMessageIds(processedMessageIds);
+
+    console.log('Materials processed and saved.');
+  } catch (error) {
+    console.error('Error processing messages:', error);
+  } finally {
+    process.exit(0);
   }
-
-  if (currentMaterial.messages.length > 0) {
-    materials.push({ ...currentMaterial });
-  }
-
-  const processedMaterials = await processMaterials(materials);
-
-  saveMaterials(processedMaterials);
-
-  console.log('Materials processed and saved.');
-  process.exit(0);
 });
 
 processBot.login(process.env.PROCESS_BOT_TOKEN);
@@ -147,10 +186,8 @@ async function fetchMessagesWithRateLimit(channel, options) {
 
       if (response.size < 100) break;
 
-      // Check and handle rate limit headers
       await handleRateLimit(response);
 
-      // Pause to respect rate limits
       await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (error) {
       if (error.response && error.response.status === 429) {
@@ -177,7 +214,7 @@ async function processMaterials(materials) {
         .then(result => ({ ...material, ...result }))
         .catch(error => {
           if (error.response && error.response.status === 429) {
-            return handleRateLimit(error.response).then(() => processMaterials([material])); // Retry the same material after rate limit
+            return handleRateLimit(error.response).then(() => processMaterials([material]));
           }
           console.error('Error summarizing and extracting keywords:', error);
           return material;

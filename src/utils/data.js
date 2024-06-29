@@ -1,29 +1,25 @@
-import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { resolve } from 'path';
+import { connectDB } from './db.js';
 
-const dataFilePath = resolve('data/materials.json');
-const feedbackFilePath = resolve('data/feedback.json');
-
-export function loadMaterials() {
-  if (existsSync(dataFilePath)) {
-    const data = readFileSync(dataFilePath);
-    return JSON.parse(data);
-  }
-  return [];
+export async function loadMaterials() {
+  const { db } = await connectDB();
+  const materials = await db.collection('materials').find().toArray();
+  return materials;
 }
 
-export function saveMaterials(materials) {
-  writeFileSync(dataFilePath, JSON.stringify(materials, null, 2));
+export async function saveMaterials(materials) {
+  const { db } = await connectDB();
+  await db.collection('materials').deleteMany({});
+  await db.collection('materials').insertMany(materials);
 }
 
-export function loadFeedback() {
-  if (existsSync(feedbackFilePath)) {
-    const data = readFileSync(feedbackFilePath);
-    return JSON.parse(data);
-  }
-  return [];
+export async function loadFeedback() {
+  const { db } = await connectDB();
+  const feedback = await db.collection('feedback').find().toArray();
+  return feedback;
 }
 
-export function saveFeedback(feedback) {
-  writeFileSync(feedbackFilePath, JSON.stringify(feedback, null, 2));
+export async function saveFeedback(feedback) {
+  const { db } = await connectDB();
+  await db.collection('feedback').deleteMany({});
+  await db.collection('feedback').insertMany(feedback);
 }

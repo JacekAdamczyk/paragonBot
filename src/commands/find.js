@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 dotenv.config();
 
 export async function findEducationalMaterial(query, userId, username) {
-  const materials = loadMaterials();
+  const materials = await loadMaterials();
 
   const topIndices = await searchLocal(query);
   const filteredMaterials = topIndices.map(index => materials[index]);
@@ -30,7 +30,7 @@ export async function findEducationalMaterial(query, userId, username) {
     resultText = resultText.substring(0, 1997) + '...';
   }
 
-  const feedbackData = loadFeedback();
+  const feedbackData = await loadFeedback();
 
   const newFeedbackData = feedbackData.filter(fb => fb.userId !== userId || fb.feedback !== null);
 
@@ -39,7 +39,7 @@ export async function findEducationalMaterial(query, userId, username) {
   );
 
   newFeedbackData.push({ id: uuidv4(), userId, username, query, materials: materialLinks, timestamp: new Date().toISOString(), feedback: null, detailedFeedback: null, reviewed: false });
-  saveFeedback(newFeedbackData);
+  await saveFeedback(newFeedbackData);
 
   return `${resultText}\n\nWas this helpful? Reply with \`!feedback yes\` or \`!feedback no <tell us what you were looking for>\``;
 }
