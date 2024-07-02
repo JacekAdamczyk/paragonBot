@@ -1,25 +1,31 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
+import { connectDB } from '../src/utils/db.js';
 
 dotenv.config();
 
-const materialsFilePath = resolve('data', 'materials.json');
-const embeddingsFilePath = resolve('data', 'embeddings.json');
 const OPENAI_API_URL = 'https://api.openai.com/v1/embeddings';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 async function createEmbeddings() {
-  if (!existsSync(materialsFilePath)) {
-    console.error('materials.json file not found.');
+  const { db, client } = await connectDB();
+  if (!db) {
+    console.error('Database connection is not established.');
     return;
   }
 
-  const materials = JSON.parse(readFileSync(materialsFilePath));
+  const materialsCollection = db.collection('materials');
+  const embeddingsCollection = db.collection('embeddings');
+
+  const materials = await materialsCollection.find().toArray();
+  if (!materials.length) {
+    console.error('No materials found in the database.');
+    return;
+  }
+
   const documents = materials.map(material => material.summary + ' ' + material.messages.map(m => m.content).join(' '));
 
-  const embeddings = await Promise.all(documents.map(async (document) => {
+  const embeddings = await Promise.all(documents.map(async (document, index) => {
     try {
       const response = await fetch(OPENAI_API_URL, {
         method: 'POST',
@@ -36,19 +42,40 @@ async function createEmbeddings() {
       const result = await response.json();
 
       if (response.ok && result.data && result.data[0] && result.data[0].embedding) {
+        console.log(`Successfully fetched embedding for document ${index + 1}`);
         return result.data[0].embedding;
       } else {
-        console.error('Unexpected response structure:', result);
-        throw new Error('Failed to retrieve embedding');
+        console.error('Unexpected response structure for document:', index + 1, result);
+        return null;
       }
     } catch (error) {
-      console.error('Error fetching embedding:', error);
-      throw error;
+      console.error('Error fetching embedding for document:', index + 1, error);
+      return null;
     }
   }));
 
-  // Save embeddings
-  writeFileSync(embeddingsFilePath, JSON.stringify(embeddings));
+  const validEmbeddings = embeddings.filter(embedding => embedding !== null);
+
+  if (validEmbeddings.length === 0) {
+    console.error('No valid embeddings were created.');
+    await client.close();
+    return;
+  }
+
+  await embeddingsCollection.deleteMany({});
+  await embeddingsCollection.insertMany(
+    validEmbeddings.map((embedding, index) => ({
+      materialId: materials[index]._id,
+      embedding
+    }))
+  );
+
+  console.log('Embeddings created and saved successfully.');
+  await client.close();
 }
 
-createEmbeddings().catch(console.error);
+createEmbeddings().catch(async (error) => {
+  console.error('Error creating embeddings:', error);
+  const { client } = await connectDB();
+  await client.close();
+});

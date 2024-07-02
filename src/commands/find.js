@@ -10,7 +10,7 @@ export async function findEducationalMaterial(query, userId, username) {
   const materials = await loadMaterials();
 
   const topIndices = await searchLocal(query);
-  const filteredMaterials = topIndices.map(index => materials[index]);
+  const filteredMaterials = topIndices.map(index => materials.find(mat => mat.id === index));
 
   const finalMaterials = await filterMaterialsWithOpenAI(query, filteredMaterials);
 
@@ -24,7 +24,6 @@ export async function findEducationalMaterial(query, userId, username) {
   let resultText = limitedResults.map(material =>
     `**${material.description}:**\nSummary: ${material.summary}\nLink: https://discord.com/channels/${process.env.GUILD_ID}/${material.channelId}/${material.messages[0].id}`
   ).join('\n\n') + (finalMaterials.length > maxResults ? '\n\nMore results available...' : '');
-
 
   if (resultText.length > 2000) {
     resultText = resultText.substring(0, 1997) + '...';

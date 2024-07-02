@@ -1,24 +1,26 @@
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { withDB } from './dbUtils.js';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const embeddings = JSON.parse(readFileSync(resolve('data/embeddings.json')));
 const OPENAI_API_URL = 'https://api.openai.com/v1/embeddings';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 export async function searchLocal(query, top_n = 10) {
   const queryEmbedding = await getEmbedding(query);
 
-  const similarities = cosineSimilarity(embeddings, queryEmbedding);
+  const embeddings = await withDB(async (db) => {
+    return db.collection('embeddings').find().toArray();
+  });
+
+  const similarities = cosineSimilarity(embeddings.map(e => e.embedding), queryEmbedding);
   const topIndices = similarities
     .map((similarity, index) => ({ similarity, index }))
     .sort((a, b) => b.similarity - a.similarity)
     .slice(0, top_n)
-    .map(item => item.index);
-  console.log(topIndices)
+    .map(item => embeddings[item.index].materialId);
+
   return topIndices;
 }
 

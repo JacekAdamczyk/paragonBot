@@ -5,10 +5,10 @@ import { handleRateLimit } from '../utils/rateLimitHandler.js';
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
 import fs from 'fs';
-import { connectDB } from '../utils/db.js';
+import { createEmbedding } from '../utils/embeddingUtils.js';
+import { connectDB, insertEmbedding, embeddingExists } from '../utils/dbUtils.js'; // Ensure embeddingExists is imported
 
 dotenv.config();
-
 const processBot = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -28,31 +28,31 @@ function saveLastMessageId(messageId) {
   fs.writeFileSync(LAST_MESSAGE_ID_FILE, messageId, 'utf-8');
 }
 
-async function loadProcessedMessageIds() {
-  const { db } = await connectDB();
-  if (!db) {
-    console.error('Database connection is not established.');
-    return new Set();
+async function loadProcessedMessageIds(db) {
+  try {
+    console.log('Loading processed message IDs...');
+    const collection = db.collection('processedMessageIds');
+    const docs = await collection.find().toArray();
+    console.log('Processed message IDs loaded:', docs.length);
+    return new Set(docs.map(doc => doc.id));
+  } catch (error) {
+    console.error('Error in loadProcessedMessageIds:', error);
+    throw error;
   }
-  const collection = db.collection('processedMessageIds');
-  const docs = await collection.find().toArray();
-  return new Set(docs.map(doc => doc.id));
 }
 
-async function saveProcessedMessageIds(processedMessageIds) {
-  const { db } = await connectDB();
-  if (!db) {
-    console.error('Database connection is not established.');
-    return;
-  }
+async function saveProcessedMessageIds(db, processedMessageIds) {
+  console.log('Saving processed message IDs...');
   const collection = db.collection('processedMessageIds');
   await collection.deleteMany({});
   await collection.insertMany(Array.from(processedMessageIds).map(id => ({ id })));
+  console.log('Processed message IDs saved.');
 }
 
 processBot.once('ready', async () => {
   console.log(`Process Bot logged in as ${processBot.user.tag}!`);
-  const channelId = '1251056553050636300'; // Replace with your channel ID
+
+  const channelId = '1251056574156505089'; // Replace with your channel ID
   const channel = processBot.channels.cache.get(channelId);
 
   if (!channel) {
@@ -65,18 +65,26 @@ processBot.once('ready', async () => {
   const isTestMode = process.env.MODE === 'test';
   const messageLimit = isTestMode ? 100 : Infinity; // Set limit for test mode
 
-  let materials = await loadMaterials();
-  materials = materials.map(material => ({
-    id: material.id || uuidv4(),
-    ...material
-  }));
-
-  let processedMessageIds = await loadProcessedMessageIds();
-
-  let currentMaterial = { id: uuidv4(), messages: [], links: [], summary: '', description: '', author: '', keywords: [], channelId };
-  let messageCount = 0; // Counter to limit the number of fetched messages
-
   try {
+    console.log('Connecting to the database...');
+    const { db, client } = await connectDB(); // Ensure DB is connected
+    console.log('Database connected, starting message processing...');
+
+    if (!client.topology.isConnected()) {
+      throw new Error('MongoDB client is not connected after attempting to connect.');
+    }
+
+    let materials = await loadMaterials();
+    materials = materials.map(material => ({
+      id: material.id || uuidv4(),
+      ...material
+    }));
+
+    let processedMessageIds = await loadProcessedMessageIds(db);
+
+    let currentMaterial = { id: uuidv4(), messages: [], links: [], summary: '', description: '', author: '', keywords: [], channelId };
+    let messageCount = 0; // Counter to limit the number of fetched messages
+
     while (messageCount < messageLimit) {
       const options = { limit: 100 };
       if (lastMessageId) {
@@ -145,14 +153,27 @@ processBot.once('ready', async () => {
     const processedMaterials = await processMaterials(materials);
 
     await saveMaterials(processedMaterials);
-    await saveProcessedMessageIds(processedMessageIds);
+    await saveProcessedMessageIds(db, processedMessageIds);
 
     console.log('Materials processed and saved.');
+
+    // Create embeddings for the processed materials
+    for (const material of processedMaterials) {
+      const document = material.summary + ' ' + material.messages.map(m => m.content).join(' ');
+
+      const exists = await embeddingExists(db, material.id);
+      if (!exists) {
+        const embedding = await createEmbedding(document);
+        await insertEmbedding(db, material.id, embedding);
+      }
+    }
+
+    console.log('Embeddings created and saved.');
   } catch (error) {
     console.error('Error processing messages:', error);
-  } finally {
-    process.exit(0);
   }
+
+  process.exit(0);
 });
 
 processBot.login(process.env.PROCESS_BOT_TOKEN);

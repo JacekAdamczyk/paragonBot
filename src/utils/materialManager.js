@@ -3,6 +3,7 @@ import { Client, GatewayIntentBits } from 'discord.js';
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
 import { summarizeAndExtractKeywords } from './openaiUtils.js'; // Import the OpenAI utility functions
+import { connectDB } from './dbUtils.js';  // Ensure connectDB is imported
 
 dotenv.config();
 
@@ -27,7 +28,6 @@ function isNewMaterial(message, lastMessageTime) {
     return true;
   }
   const timeDifference = message.createdTimestamp - lastMessageTime;
-
   return timeDifference > fiveMinutes;
 }
 
@@ -40,7 +40,6 @@ async function fetchMessagesInRange(channel, startMessage, timeWindowMs) {
   while (hasMoreMessagessToProcess) {
     const options = { limit: 10, around: lastMessageIdBefore };
     const messages = await channel.messages.fetch(options);
-    console.log(messages)
     if (messages.size === 0) break;
 
     const messagesArray = Array.from(messages.values());
@@ -140,8 +139,8 @@ export async function processNewMessagesFromLink(messageLink) {
   const startMessage = await channel.messages.fetch(messageId);
   const timeWindowMs = 5 * 60 * 1000; // 5 minutes before and after
 
-  const materials = loadMaterials();
-  const processedMessageIds = new Set(materials.flatMap(material => material.messages.map(msg => msg.id)));
+  const materials = await loadMaterials(); // Ensure loadMaterials is called correctly
+  const processedMessageIds = new Set(materials.map(material => material.messages.map(msg => msg.id)).flat());
 
   // Fetch messages within the 5-minute range before and after the start message
   const messagesInRange = await fetchMessagesInRange(channel, startMessage, timeWindowMs);
@@ -155,15 +154,16 @@ export async function processNewMessagesFromLink(messageLink) {
   // Summarize and extract keywords for each material concurrently
   const processedMaterials = await processMaterials(materials);
 
-  saveMaterials(processedMaterials);
+  await saveMaterials(processedMaterials);
 
   console.log('Materials processed and saved.');
+  return processedMaterials[processedMaterials.length - 1]; // Return the latest processed material
 }
 
 export async function viewMaterial(messageLink) {
   const messageLinkParts = messageLink.split('/');
   const messageId = stripNonPrintableCharacters(messageLinkParts[messageLinkParts.length - 1].trim());
-  const materials = loadMaterials();
+  const materials = await loadMaterials();
 
   for (const material of materials) {
     for (const msg of material.messages) {
@@ -179,7 +179,7 @@ export async function viewMaterial(messageLink) {
 
 export async function editMaterial(materialId, field, newValue) {
   field = field.toLowerCase();
-  const materials = loadMaterials();
+  const materials = await loadMaterials();
   const cleanedMaterialId = stripNonPrintableCharacters(materialId.trim());
 
   const material = materials.find(mat => {
@@ -201,12 +201,12 @@ export async function editMaterial(materialId, field, newValue) {
     material[field] = newValue;
   }
 
-  saveMaterials(materials);
+  await saveMaterials(materials);
   return 'Material updated successfully.';
 }
 
 export async function deleteMaterial(materialId) {
-  const materials = loadMaterials();
+  const materials = await loadMaterials();
   const cleanedMaterialId = stripNonPrintableCharacters(materialId.trim());
 
   const materialIndex = materials.findIndex(mat => {
@@ -219,6 +219,13 @@ export async function deleteMaterial(materialId) {
   }
 
   materials.splice(materialIndex, 1);
-  saveMaterials(materials);
+
+  if (materials.length > 0) {
+    await saveMaterials(materials);
+  } else {
+    const { db } = await connectDB();
+    await db.collection('materials').deleteMany({}); // Clear the collection if no materials are left
+  }
+
   return 'Material deleted successfully.';
 }
